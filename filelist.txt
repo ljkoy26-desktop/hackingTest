@@ -1,0 +1,54 @@
+2TB_Nvme2 볼륨에 대한 폴더 경로의 목록입니다.
+볼륨 일련 번호가 000000DC 6657:F8FC입니다.
+H:.
+│  filelist.txt
+│  make_tree.bat
+│  TestMFC.sln
+│  
+├─TestMFC
+│  │  framework.h
+│  │  pch.cpp
+│  │  pch.h
+│  │  resource.h
+│  │  targetver.h
+│  │  TestMFC.aps
+│  │  TestMFC.cpp
+│  │  TestMFC.h
+│  │  TestMFC.rc
+│  │  TestMFC.vcxproj
+│  │  TestMFC.vcxproj.filters
+│  │  TestMFC.vcxproj.user
+│  │  TestMFCDlg.cpp
+│  │  TestMFCDlg.h
+│  │  
+│  ├─Debug
+│  │  │  pch.obj
+│  │  │  TestMFC.exe.recipe
+│  │  │  TestMFC.ilk
+│  │  │  TestMFC.log
+│  │  │  TestMFC.obj
+│  │  │  TestMFC.pch
+│  │  │  TestMFC.res
+│  │  │  TestMFCDlg.obj
+│  │  │  vc142.idb
+│  │  │  vc142.pdb
+│  │  │  
+│  │  └─TestMFC.tlog
+│  │          CL.command.1.tlog
+│  │          CL.read.1.tlog
+│  │          CL.write.1.tlog
+│  │          link.command.1.tlog
+│  │          link.read.1.tlog
+│  │          link.write.1.tlog
+│  │          rc.command.1.tlog
+│  │          rc.read.1.tlog
+│  │          rc.write.1.tlog
+│  │          TestMFC.lastbuildstate
+│  │          
+│  └─res
+│          TestMFC.ico
+│          TestMFC.rc2
+│          
+└─참고자료
+        클로드 작업 지시 프롬프트.md
+        
