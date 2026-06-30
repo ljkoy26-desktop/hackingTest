@@ -3,6 +3,7 @@
 #include "TestMFC.h"
 #include "TestMFCDlg.h"
 #include "afxdialogex.h"
+#include <tlhelp32.h> // 프로세스 스냅숏 API를 쓰기 위해 반드시 포함해야 합니다.
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -42,6 +43,7 @@ BEGIN_MESSAGE_MAP(CTestMFCDlg, CDialogEx)
     ON_BN_CLICKED(IDC_BUTTON_READ,   &CTestMFCDlg::OnBnClickedButtonRead)
     ON_BN_CLICKED(IDC_BUTTON1,       &CTestMFCDlg::OnBnClickedButtonWrite)
     ON_BN_CLICKED(IDC_BUTTON_FREEZE, &CTestMFCDlg::OnBnClickedButtonFreeze)
+    ON_BN_CLICKED(IDC_BUTTON_CHECK_PID, &CTestMFCDlg::OnBnClickedButtonCheckPid)
 END_MESSAGE_MAP()
 
 BOOL CTestMFCDlg::OnInitDialog()
@@ -236,4 +238,46 @@ void CTestMFCDlg::OnBnClickedButtonFreeze()
         SetDlgItemText(IDC_STATIC_RESULT, result);
         GetDlgItem(IDC_BUTTON_FREEZE)->SetWindowText(L"★ 고정 해제");
     }
+}
+
+DWORD CTestMFCDlg::GetProcessIdByName(LPCTSTR szProcessName)
+{
+    DWORD dwPID = 0;
+
+    // 1. 현재 실행 중인 모든 프로세스의 '스냅숏(사진)'을 찍습니다.
+    HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+
+    if (hSnapshot == INVALID_HANDLE_VALUE) {
+        return 0; // 스냅숏 생성 실패
+    }
+
+    // 프로세스 정보를 담을 구조체 준비
+    PROCESSENTRY32 pe32;
+    pe32.dwSize = sizeof(PROCESSENTRY32);
+
+    // 2. 스냅숏의 첫 번째 프로세스 정보를 가져옵니다.
+    if (Process32First(hSnapshot, &pe32))
+    {
+        // 3. 루프를 돌며 모든 프로세스를 하나씩 검사합니다.
+        do {
+            // 사용자가 입력한 이름(szProcessName)과 현재 검사 중인 프로세스 이름(pe32.szExeFile)을 비교
+            // _tcsicmp는 대소문자를 구분하지 않고 문자열을 비교하는 함수입니다.
+            if (_tcsicmp(pe32.szExeFile, szProcessName) == 0)
+            {
+                // 이름을 찾았다면 해당 프로세스의 PID를 저장하고 탈출!
+                dwPID = pe32.th32ProcessID;
+                break;
+            }
+        } while (Process32Next(hSnapshot, &pe32)); // 다음 프로세스 정보로 이동
+    }
+
+    // 4. 사용이 끝난 스냅숏 핸들은 반드시 닫아줍니다.
+    CloseHandle(hSnapshot);
+
+    return dwPID; // 찾으면 PID 반환, 못 찾으면 0 반환
+}
+
+void CTestMFCDlg::OnBnClickedButtonCheckPid()
+{
+    GetProcessIdByName(_T("PUYO2w95.EXE"));
 }

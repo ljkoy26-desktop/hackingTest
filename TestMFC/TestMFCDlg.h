@@ -33,5 +33,12 @@ protected:
     afx_msg void OnBnClickedButtonWrite();
     afx_msg void OnBnClickedButtonRead();
     afx_msg void OnBnClickedButtonFreeze();
+
+
+
+    DWORD GetProcessIdByName(LPCTSTR szProcessName);
+
     DECLARE_MESSAGE_MAP()
+public:
+    afx_msg void OnBnClickedButtonCheckPid();
 };
